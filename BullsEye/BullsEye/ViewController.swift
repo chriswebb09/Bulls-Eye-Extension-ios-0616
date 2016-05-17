@@ -24,6 +24,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         startNewRound()
         updateLabels()
+        
+        let thumbImageNormal = UIImage(named: "SliderThumb-Normal")
+        slider.setThumbImage(thumbImageNormal, forState: .Normal)
+        
+        let thumbImageHighlighted = UIImage(named: "SliderThumb-Highlighted")
+        slider.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
+        
+        let insets = UIEdgeInsets(top: 0, left:14, bottom: 0, right: 14)
+        
+        if let trackLeftImage = UIImage(named: "SliderTrackLeft") {
+            let trackLeftResizable =
+                trackLeftImage.resizableImageWithCapInsets(insets)
+            slider.setMinimumTrackImage(trackLeftResizable, forState: .Normal)
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
 

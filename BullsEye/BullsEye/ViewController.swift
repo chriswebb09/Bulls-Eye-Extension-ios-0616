@@ -15,15 +15,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
+    @IBOutlet weak var mathLabel: UILabel!
+    @IBOutlet weak var mathLabelMax: UILabel!
     var currentValue: Int = 0
     var targetValue: Int = 0
     var operatedValue: Int = 0
     var score = 0
     var round = 0
+    var operationalIndex = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         startNewRound()
         updateLabels()
+        updateOperation()
         
         let thumbImageNormal = UIImage(named: "SliderThumb-Normal")
         slider.setThumbImage(thumbImageNormal, forState: .Normal)
@@ -37,6 +41,25 @@ class ViewController: UIViewController {
             let trackLeftResizable =
                 trackLeftImage.resizableImageWithCapInsets(insets)
             slider.setMinimumTrackImage(trackLeftResizable, forState: .Normal)
+        }
+        
+        if let trackRightImage = UIImage(named: "SliderTrackRight") {
+            let trackRightResizable = trackRightImage.resizableImageWithCapInsets(insets)
+            slider.setMaximumTrackImage(trackRightResizable, forState: .Normal)
+        }
+        operated.setThumbImage(thumbImageNormal, forState: .Normal)
+        
+        operated.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
+        
+        if let trackOperatorLeftImage = UIImage(named: "SliderTrackLeft") {
+            let trackOperatorLeftResizable =
+                trackOperatorLeftImage.resizableImageWithCapInsets(insets)
+            operated.setMinimumTrackImage(trackOperatorLeftResizable, forState: .Normal)
+        }
+        
+        if let trackOperatorRightImage = UIImage(named: "SliderTrackRight") {
+            let trackOperatorRightResizable = trackOperatorRightImage.resizableImageWithCapInsets(insets)
+            operated.setMaximumTrackImage(trackOperatorRightResizable, forState: .Normal)
         }
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -59,6 +82,7 @@ class ViewController: UIViewController {
         presentViewController(alert, animated: true, completion: nil)
         startNewRound()
         updateLabels()
+        updateOperation()
     }
     
     @IBAction func sliderMoved(slider: UISlider) {
@@ -80,6 +104,22 @@ class ViewController: UIViewController {
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
         roundLabel.text = String(round)
+    }
+    
+    func updateOperation() {
+        operationalIndex = Int(arc4random_uniform(4))
+        switch operationalIndex {
+        case 1 :
+            operationLabel.text = String("+")
+        case 2 :
+            operationLabel.text = String("-")
+        case 3 :
+            operationLabel.text = String("÷")
+        case 4 :
+            operationLabel.text = String("x")
+        default :
+            operationLabel.text = String("default")
+        }
     }
 }
 

@@ -37,6 +37,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZY0-1s-jRl">
                                 <rect key="frame" x="20" y="264" width="38" height="36"/>
                                 <state key="normal" image="StartOverIcon" backgroundImage="SmallButton"/>
+                                <connections>
+                                    <action selector="startOver" destination="BYZ-38-t0r" eventType="touchUpInside" id="O1r-EL-y1h"/>
+                                </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="btQ-H0-zFc">
                                 <rect key="frame" x="47" y="73" width="452" height="31"/>
@@ -111,7 +114,7 @@
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                             </label>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xnD-4B-8YW">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="xnD-4B-8YW">
                                 <rect key="frame" x="47" y="145" width="452" height="31"/>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hbh-rO-9zo">
@@ -137,10 +140,11 @@
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
+                        <outlet property="mathLabel" destination="acX-RI-fq1" id="tS2-Tk-sxh"/>
                         <outlet property="operated" destination="xnD-4B-8YW" id="H6D-3g-gF6"/>
                         <outlet property="operationLabel" destination="6Gh-1V-5QD" id="J0Y-CB-jn8"/>
                         <outlet property="roundLabel" destination="reN-9c-Mbv" id="0LB-n5-3Gu"/>
-                        <outlet property="scoreLabel" destination="reN-9c-Mbv" id="Xiu-OS-hnG"/>
+                        <outlet property="scoreLabel" destination="qGr-ok-RoH" id="TT2-wU-qJn"/>
                         <outlet property="slider" destination="btQ-H0-zFc" id="Afa-yG-vjJ"/>
                         <outlet property="targetLabel" destination="fWF-qu-ZGz" id="w3J-sj-aCr"/>
                     </connections>

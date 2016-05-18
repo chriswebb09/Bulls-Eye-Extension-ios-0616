@@ -74,7 +74,7 @@ class ViewController: UIViewController {
         let points = 100 - difference
         score += points
         let message = "You scored \(points) points"
-        let alert = UIAlertController(title: "Hello, World",
+        let alert = UIAlertController(title: "Score",
                                       message: message, preferredStyle: .Alert)
         let action = UIAlertAction(title: "OK", style: .Default,
                                    handler: nil)
@@ -91,6 +91,27 @@ class ViewController: UIViewController {
     
     @IBAction func operatedMoved(operated: UISlider) {
         operatedValue = lroundf(operated.value)
+    }
+    
+    @IBAction func startOver() {
+        
+        startNewGame()
+        updateLabels()
+        
+        let transition  = CATransition()
+        
+        transition.type = kCATransitionFade
+        transition.duration = 1
+        transition.timingFunction = CAMediaTimingFunction(name:kCAMediaTimingFunctionEaseOut)
+        
+        view.layer.addAnimation(transition, forKey: nil)
+    }
+    
+    func startNewGame() {
+        score = 0
+        round = 0
+        startNewRound()
+        
     }
     
     func startNewRound() {
@@ -118,7 +139,7 @@ class ViewController: UIViewController {
         case 4 :
             operationLabel.text = String("x")
         default :
-            operationLabel.text = String("default")
+            operationLabel.text = String("+")
         }
     }
 }

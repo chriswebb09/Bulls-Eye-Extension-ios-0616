@@ -9,57 +9,65 @@
 import UIKit
 
 class ViewController: UIViewController {
-    @IBOutlet weak var slider: UISlider!
-    @IBOutlet weak var operated: UISlider!
+    @IBOutlet weak var firstSlider: UISlider!
+    @IBOutlet weak var secondSlider: UISlider!
     @IBOutlet weak var operationLabel: UILabel!
     @IBOutlet weak var targetLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var roundLabel: UILabel!
-    @IBOutlet weak var mathLabel: UILabel!
-    @IBOutlet weak var mathLabelMax: UILabel!
+    @IBOutlet weak var firstSliderMinLabel: UILabel!
+    @IBOutlet weak var firstSliderMaxLabel: UILabel!
+    @IBOutlet weak var secondSliderMinLabel: UILabel!
+    @IBOutlet weak var secondSliderMaxLabel: UILabel!
+    
     var currentValue: Int = 0
     var targetValue: Int = 0
     var operatedValue: Int = 0
     var score = 0
     var round = 0
+    var divisor = 0
     var operationalIndex = 0
+    var totalValueFirstSlider = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         startNewRound()
-        updateLabels()
         updateOperation()
+        getSliderValues()
+        updateLabels()
+        
         
         let thumbImageNormal = UIImage(named: "SliderThumb-Normal")
-        slider.setThumbImage(thumbImageNormal, forState: .Normal)
+        firstSlider.setThumbImage(thumbImageNormal, forState: .Normal)
         
         let thumbImageHighlighted = UIImage(named: "SliderThumb-Highlighted")
-        slider.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
+        firstSlider.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
         
         let insets = UIEdgeInsets(top: 0, left:14, bottom: 0, right: 14)
         
         if let trackLeftImage = UIImage(named: "SliderTrackLeft") {
             let trackLeftResizable =
                 trackLeftImage.resizableImageWithCapInsets(insets)
-            slider.setMinimumTrackImage(trackLeftResizable, forState: .Normal)
+            firstSlider.setMinimumTrackImage(trackLeftResizable, forState: .Normal)
         }
         
         if let trackRightImage = UIImage(named: "SliderTrackRight") {
             let trackRightResizable = trackRightImage.resizableImageWithCapInsets(insets)
-            slider.setMaximumTrackImage(trackRightResizable, forState: .Normal)
+            firstSlider.setMaximumTrackImage(trackRightResizable, forState: .Normal)
         }
-        operated.setThumbImage(thumbImageNormal, forState: .Normal)
+        secondSlider.setThumbImage(thumbImageNormal, forState: .Normal)
         
-        operated.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
+        secondSlider.setThumbImage(thumbImageHighlighted, forState: .Highlighted);
         
         if let trackOperatorLeftImage = UIImage(named: "SliderTrackLeft") {
             let trackOperatorLeftResizable =
                 trackOperatorLeftImage.resizableImageWithCapInsets(insets)
-            operated.setMinimumTrackImage(trackOperatorLeftResizable, forState: .Normal)
+            secondSlider.setMinimumTrackImage(trackOperatorLeftResizable, forState: .Normal)
         }
         
         if let trackOperatorRightImage = UIImage(named: "SliderTrackRight") {
             let trackOperatorRightResizable = trackOperatorRightImage.resizableImageWithCapInsets(insets)
-            operated.setMaximumTrackImage(trackOperatorRightResizable, forState: .Normal)
+            secondSlider.setMaximumTrackImage(trackOperatorRightResizable, forState: .Normal)
         }
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -81,16 +89,24 @@ class ViewController: UIViewController {
         alert.addAction(action)
         presentViewController(alert, animated: true, completion: nil)
         startNewRound()
+        getSliderValues()
+        if firstSlider.minimumValue == firstSlider.maximumValue {
+            getSliderValues()
+        }
+        
+        if secondSlider.minimumValue == secondSlider.maximumValue {
+            getSliderValues()
+        }
         updateLabels()
         updateOperation()
     }
     
-    @IBAction func sliderMoved(slider: UISlider) {
-        currentValue = lroundf(slider.value)
+    @IBAction func sliderMoved(firstSlider: UISlider) {
+        currentValue = lroundf(firstSlider.value)
     }
     
-    @IBAction func operatedMoved(operated: UISlider) {
-        operatedValue = lroundf(operated.value)
+    @IBAction func operatedMoved(secondSlider: UISlider) {
+        operatedValue = lroundf(secondSlider.value)
     }
     
     @IBAction func startOver() {
@@ -111,20 +127,39 @@ class ViewController: UIViewController {
         score = 0
         round = 0
         startNewRound()
-        
     }
     
     func startNewRound() {
         round += 1
         targetValue = 1 + Int(arc4random_uniform(100))
         currentValue = 50
-        slider.value = Float(currentValue)
+        totalValueFirstSlider = Int(firstSlider.minimumValue + firstSlider.maximumValue)
+        firstSlider.value = Float(totalValueFirstSlider/2)
+        secondSlider.value = Float(currentValue)
+    }
+    
+    func getSliderValues() {
+        firstSlider.minimumValue = Float(arc4random_uniform(50))
+        firstSlider.maximumValue = Float(arc4random_uniform(50))
+        secondSlider.minimumValue = Float(arc4random_uniform(50))
+        secondSlider.maximumValue = Float(arc4random_uniform(50))
     }
     
     func updateLabels() {
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
         roundLabel.text = String(round)
+        while firstSlider.minimumValue == firstSlider.maximumValue {
+            getSliderValues()
+            firstSliderMinLabel.text = String(Int(firstSlider.minimumValue))
+            firstSliderMaxLabel.text = String(Int(firstSlider.maximumValue))
+        }
+        
+        while secondSlider.minimumValue == secondSlider.maximumValue {
+            getSliderValues()
+            secondSliderMinLabel.text = String(Int(secondSlider.minimumValue))
+            secondSliderMaxLabel.text = String(Int(secondSlider.maximumValue))
+        }
     }
     
     func updateOperation() {
@@ -141,6 +176,9 @@ class ViewController: UIViewController {
         default :
             operationLabel.text = String("+")
         }
+    }
+    
+    func mathIt() {
     }
 }
 

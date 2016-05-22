@@ -133,6 +133,7 @@ class ViewController: UIViewController {
         round += 1
         targetValue = 1 + Int(arc4random_uniform(100))
         currentValue = 50
+        var rangeOfValues = [Int](Int(firstSlider.minimumValue)...Int(firstSlider.maximumValue))
         totalValueFirstSlider = Int(firstSlider.minimumValue + firstSlider.maximumValue)
         firstSlider.value = Float(totalValueFirstSlider/2)
         secondSlider.value = Float(currentValue)

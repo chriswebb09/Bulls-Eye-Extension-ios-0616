@@ -27,7 +27,13 @@ class ViewController: UIViewController {
     var round = 0
     var divisor = 0
     var operationalIndex = 0
-    var totalValueFirstSlider = 0
+    var firstSliderMinInt = 0
+    var firstSliderMaxInt = 0
+    var middleIndexFirstSlider = 0
+    var rangeOfValuesFirstSlider = []
+    var middleIndexSecondSlider = 0
+    var rangeOfValuesSecondSlider = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +105,7 @@ class ViewController: UIViewController {
         }
         updateLabels()
         updateOperation()
+        startNewRound()
     }
     
     @IBAction func sliderMoved(firstSlider: UISlider) {
@@ -133,9 +140,14 @@ class ViewController: UIViewController {
         round += 1
         targetValue = 1 + Int(arc4random_uniform(100))
         currentValue = 50
-        totalValueFirstSlider = Int(firstSlider.minimumValue + firstSlider.maximumValue)
-        firstSlider.value = Float(totalValueFirstSlider/2)
-        secondSlider.value = Float(currentValue)
+        firstSliderMinInt = Int(firstSlider.minimumValue)
+        firstSliderMaxInt = Int(firstSlider.maximumValue)
+        rangeOfValuesFirstSlider = [Int](Int(firstSlider.minimumValue)...Int(firstSlider.maximumValue))
+        middleIndexFirstSlider = Int((rangeOfValuesFirstSlider.count - 1) / 2)
+        rangeOfValuesSecondSlider = [Int](Int(secondSlider.minimumValue)...Int(secondSlider.maximumValue))
+        middleIndexSecondSlider = Int((rangeOfValuesSecondSlider.count - 1) / 2)
+        firstSlider.value = Float(rangeOfValuesFirstSlider[middleIndexFirstSlider] as! NSNumber)
+        secondSlider.value = Float(rangeOfValuesSecondSlider[middleIndexSecondSlider] as! NSNumber)
     }
     
     func getSliderValues() {

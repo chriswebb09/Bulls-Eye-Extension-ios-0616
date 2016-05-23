@@ -25,14 +25,13 @@ class ViewController: UIViewController {
     var operatedValue: Int = 0
     var score = 0
     var round = 0
-    var divisor = 0
     var operationalIndex = 0
-    var firstSliderMinInt = 0
-    var firstSliderMaxInt = 0
-    var middleIndexFirstSlider = 0
-    var rangeOfValuesFirstSlider = []
-    var middleIndexSecondSlider = 0
-    var rangeOfValuesSecondSlider = []
+    var firstSliderMidpoint : Float = 0
+    var secondSliderMidpoint : Float = 0
+    var operational : Int = 0
+    var calculateVariableOne : Int = 0
+    var calculateVariableTwo : Int = 0
+    var calculatedValue : Int = 0
     
     
     override func viewDidLoad() {
@@ -95,27 +94,13 @@ class ViewController: UIViewController {
         let message = "You scored \(points) points"
         let alert = UIAlertController(title: "Score",
                                       message: message, preferredStyle: .Alert)
-//        let action = UIAlertAction(title: "OK", style: .Default,
-//                                   handler: nil)
         
         let action = UIAlertAction(title: "OK", style: .Default) { (UIAlertAction) in
             self.startNewRound()
         }
         alert.addAction(action)
         presentViewController(alert, animated: true, completion: nil)
-//        presentViewController(alert, animated: true) {
-//
-//        }
-        //resetSliderToOrigin()
-        //print("Called resetSliderToOrigin() at end of showAlert()")
-        //startNewRound()
-        //print("Called resetSliderToOrigin() at end of showAlert()")
-        //updateLabels()
-        //print("Called updateLabels() at end of showAlert()")
-        //updateOperation()
-//        print("Called updateOperation() at end of showAlert()")
-//        startNewRound()
-//        print("**End of showAlert() function**")
+
         print("------------------------------------")
     }
     
@@ -203,26 +188,25 @@ class ViewController: UIViewController {
         print("Called sliderValues() inside of startNewRound()")
         updateOperation()
         updateLabels()
-        targetValue = 1 + Int(arc4random_uniform(100))
+        //targetValue = 1 + Int(arc4random_uniform(100))
+        mathIt()
         print("End of startNewRound() function")
         print("------------------------------------")
     }
     
     func resetSliderToOrigin() {
         print("Beginning of resetSliderToOrigin() function")
-        rangeOfValuesFirstSlider = [Int](Int(firstSlider.minimumValue)...Int(firstSlider.maximumValue))
-        middleIndexFirstSlider = Int((rangeOfValuesFirstSlider.count - 1) / 2)
-        rangeOfValuesSecondSlider = [Int](Int(secondSlider.minimumValue)...Int(secondSlider.maximumValue))
-        middleIndexSecondSlider = Int((rangeOfValuesSecondSlider.count - 1) / 2)
-        
-        firstSlider.value = Float(rangeOfValuesFirstSlider[middleIndexFirstSlider] as! NSNumber)
-        
-//        firstSlider.value = Float(Int(firstSlider.minimumValue) + Int(firstSlider.maximumValue) / 2)
+        firstSliderMidpoint = (firstSlider.minimumValue + firstSlider.maximumValue) / 2
+        secondSliderMidpoint = (secondSlider.minimumValue + secondSlider.maximumValue) / 2
+        firstSlider.value = firstSliderMidpoint
+        print("First slider midpoint: \(firstSliderMidpoint)")
+        secondSlider.value = secondSliderMidpoint
+        print("Second slider midpoint: \(secondSliderMidpoint)")
+
         print("------------------------------------")
         print("firstSlider.value value: \(firstSlider.value)")
         print("------------------------------------")
-        secondSlider.value = Float(rangeOfValuesSecondSlider[middleIndexSecondSlider] as! NSNumber)
-//        secondSlider.value = Float(Int(firstSlider.minimumValue) + Int(firstSlider.maximumValue) / 2)
+        
         print("------------------------------------")
         print("secondSlider.value value: \(secondSlider.value)")
         print("------------------------------------")
@@ -272,10 +256,25 @@ class ViewController: UIViewController {
         }
     }
     
-    
-    
     func mathIt() {
-        
+        operational = Int(updateOperation())
+        print("Operational Value: \(operational)")
+        if (operational == 1) {
+            calculatedValue = Int(firstSlider.value) + Int(secondSlider.value)
+            print("Printing first slider + second slider: \(calculatedValue)")
+        } else if (operational == 2) {
+            calculatedValue = Int(firstSlider.value) - Int(secondSlider.value)
+            print("Printing first slider - second slider: \(calculatedValue)")
+        } else if (operational == 3) {
+            calculatedValue = Int(firstSlider.value) / Int(secondSlider.value)
+            print("Printing first slider ÷ second slider: \(calculatedValue)")
+        } else if (operational == 4) {
+            calculatedValue = Int(firstSlider.value) * Int(secondSlider.value)
+            print("Printing first slider x second slider: \(calculatedValue)")
+        } else {
+            calculatedValue = Int(firstSlider.value) + Int(secondSlider.value)
+            print("Default - Printing first slider + second slider: \(calculatedValue)")
+        }
+        targetValue = calculatedValue;
     }
 }
-

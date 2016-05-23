@@ -14,9 +14,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "200"
-            endingLineNumber = "200"
-            landmarkName = "updateOperation()"
-            landmarkType = "5">
+            endingLineNumber = "200">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -23,15 +23,17 @@ class ViewController: UIViewController {
     var currentValue: Int = 0
     var targetValue: Int = 0
     var operatedValue: Int = 0
-    var score = 0
-    var round = 0
-    var operationalIndex = 0
+    var score : Int = 0
+    var round : Int = 0
+    var operationalIndex : Int = 0
     var firstSliderMidpoint : Float = 0
     var secondSliderMidpoint : Float = 0
     var operational : Int = 0
     var calculateVariableOne : Int = 0
     var calculateVariableTwo : Int = 0
     var calculatedValue : Int = 0
+    var firstSliderRandomizer : Int = 0
+    var secondSliderRandomizer : Int = 0
     
     
     override func viewDidLoad() {
@@ -70,25 +72,14 @@ class ViewController: UIViewController {
             let trackOperatorRightResizable = trackOperatorRightImage.resizableImageWithCapInsets(insets)
             secondSlider.setMaximumTrackImage(trackOperatorRightResizable, forState: .Normal)
         }
-        
-        print("End of viewDidLoad() funtion")
-        print("------------------------------------")
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @IBAction func showAlert() {
-        
-        //fix this mess
-        print("------------------------------------")
-        print("**Beginning of showAlert()**")
-        print("------------------------------------")
         let difference = abs(targetValue - currentValue)
-    
         let points = 100 - difference
         score += points
         let message = "You scored \(points) points"
@@ -100,21 +91,18 @@ class ViewController: UIViewController {
         }
         alert.addAction(action)
         presentViewController(alert, animated: true, completion: nil)
-
-        print("------------------------------------")
     }
+    
     
     @IBAction func sliderMoved(firstSlider: UISlider) {
-        print("Beginning of sliderMoved(firstSlider) function")
         currentValue = lroundf(firstSlider.value)
-        print("Printing currentValue: ", currentValue)
     }
     
+    
     @IBAction func operatedMoved(secondSlider: UISlider) {
-        print("Beginning of sliderMoved(secondSlider) function")
         operatedValue = lroundf(secondSlider.value)
-        print("Printing operatedValue: ", operatedValue)
     }
+    
     
     @IBAction func startOver() {
         startNewGame()
@@ -127,15 +115,10 @@ class ViewController: UIViewController {
         view.layer.addAnimation(transition, forKey: nil)
     }
     
+    
     func sliderValues() {
-        print("Beginning of sliderValues() function")
         getSliderValues()
-        print("Called getSliderValues() at beginning of sliderValues")
         while firstSlider.minimumValue == firstSlider.maximumValue {
-            getSliderValues()
-        }
-        
-        while secondSlider.minimumValue == secondSlider.maximumValue {
             getSliderValues()
             while secondSlider.minimumValue < 1 {
                 getSliderValues()
@@ -149,86 +132,59 @@ class ViewController: UIViewController {
             while firstSlider.maximumValue < 1 {
                 getSliderValues()
             }
-            while firstSlider.minimumValue > firstSlider.maximumValue {
-                getSliderValues()
-            }
-            while secondSlider.minimumValue > secondSlider.maximumValue {
-                getSliderValues()
-            }
-            print("------------------------------------")
-            print("firstSlider.minumumValue value: \(firstSlider.minimumValue)")
-            print("------------------------------------")
-            print("firstSlider.maximumValue value: \(firstSlider.maximumValue)")
-            print("------------------------------------")
-            print("secondSlider.minimumValue value: \(secondSlider.minimumValue)")
-            print("------------------------------------")
-            print("secondSlider.maximumValue value: \(secondSlider.maximumValue)")
-            print("------------------------------------")
         }
-        
-        print("End of sliderValues() function")
-        print("------------------------------------")
     }
     
+    
     func startNewGame() {
-        print("Beginning of startNewGame function")
         score = 0
         round = 0
         startNewRound()
-        print("Called startNewRound() at the end of startNewGame()")
-        print("------------------------------------")
     }
     
+    
     func startNewRound() {
-        //Reorganize and complete
-        print("Beginning of startNewRound() function")
         round += 1
         sliderValues()
         resetSliderToOrigin()
-        print("Called sliderValues() inside of startNewRound()")
         updateOperation()
         updateLabels()
-        //targetValue = 1 + Int(arc4random_uniform(100))
         mathIt()
-        print("End of startNewRound() function")
-        print("------------------------------------")
+        while calculatedValue < 1 {
+            mathIt()
+        }
+        targetValue = calculatedValue
     }
     
+    
     func resetSliderToOrigin() {
-        print("Beginning of resetSliderToOrigin() function")
         firstSliderMidpoint = (firstSlider.minimumValue + firstSlider.maximumValue) / 2
         secondSliderMidpoint = (secondSlider.minimumValue + secondSlider.maximumValue) / 2
         firstSlider.value = firstSliderMidpoint
-        print("First slider midpoint: \(firstSliderMidpoint)")
         secondSlider.value = secondSliderMidpoint
-        print("Second slider midpoint: \(secondSliderMidpoint)")
-
-        print("------------------------------------")
-        print("firstSlider.value value: \(firstSlider.value)")
-        print("------------------------------------")
-        
-        print("------------------------------------")
-        print("secondSlider.value value: \(secondSlider.value)")
-        print("------------------------------------")
-        print("End of resetSliderToOrigin() function")
-        print("------------------------------------")
     }
     
+    
+    
     func getSliderValues() {
-        // Reorganize and complete
-        print("Beginning of getSliderValues() function")
         firstSlider.minimumValue = Float(arc4random_uniform(50) + 1)
-        print("Printing firstSlider.minimumValue: ", firstSlider.minimumValue)
         firstSlider.maximumValue = Float(arc4random_uniform(50) + 50)
-        print("Printing firstSlider.maximumValue: ", firstSlider.maximumValue)
         secondSlider.minimumValue = Float(arc4random_uniform(50) + 1)
         secondSlider.maximumValue = Float(arc4random_uniform(50) + 50)
-        print("Ending of getSliderValues() function")
-        print("------------------------------------")
+        randomizeSlider()
+    }
+    
+    
+    func randomizeSlider() {
+        firstSliderRandomizer = Int(arc4random_uniform(4) + 1)
+        secondSliderRandomizer = Int(arc4random_uniform(4) + 1)
+        firstSlider.minimumValue = firstSlider.minimumValue / Float(firstSliderRandomizer)
+        firstSlider.maximumValue = firstSlider.maximumValue / Float(firstSliderRandomizer)
+        secondSlider.minimumValue = secondSlider.minimumValue / Float(secondSliderRandomizer)
+        secondSlider.maximumValue = secondSlider.maximumValue / Float(secondSliderRandomizer)
     }
     
     func updateLabels() {
-        print("Beginning of updateLabels() function")
         targetLabel.text = String(targetValue)
         scoreLabel.text = String(score)
         roundLabel.text = String(round)
@@ -236,45 +192,44 @@ class ViewController: UIViewController {
         firstSliderMaxLabel.text = String(Int(firstSlider.maximumValue))
         secondSliderMinLabel.text = String(Int(secondSlider.minimumValue))
         secondSliderMaxLabel.text = String(Int(secondSlider.maximumValue))
-        print("End of updateLabels() function")
-        print("------------------------------------")
     }
+    
+    
     
     func updateOperation() {
         operationalIndex = Int(arc4random_uniform(4))
         switch operationalIndex {
         case 1 :
             operationLabel.text = String("+")
+            operational = 1
         case 2 :
             operationLabel.text = String("-")
+            operational = 2
         case 3 :
             operationLabel.text = String("÷")
+            operational = 3
         case 4 :
             operationLabel.text = String("x")
+            operational = 4
         default :
             operationLabel.text = String("+")
+            operational = 1
         }
     }
     
+    
     func mathIt() {
-        operational = Int(updateOperation())
-        print("Operational Value: \(operational)")
+        updateOperation()
         if (operational == 1) {
             calculatedValue = Int(firstSlider.value) + Int(secondSlider.value)
-            print("Printing first slider + second slider: \(calculatedValue)")
         } else if (operational == 2) {
             calculatedValue = Int(firstSlider.value) - Int(secondSlider.value)
-            print("Printing first slider - second slider: \(calculatedValue)")
         } else if (operational == 3) {
             calculatedValue = Int(firstSlider.value) / Int(secondSlider.value)
-            print("Printing first slider ÷ second slider: \(calculatedValue)")
         } else if (operational == 4) {
             calculatedValue = Int(firstSlider.value) * Int(secondSlider.value)
-            print("Printing first slider x second slider: \(calculatedValue)")
         } else {
             calculatedValue = Int(firstSlider.value) + Int(secondSlider.value)
-            print("Default - Printing first slider + second slider: \(calculatedValue)")
         }
-        targetValue = calculatedValue;
     }
 }
